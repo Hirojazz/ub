@@ -22,13 +22,13 @@ autopic_2: "No Results found for `{}`"
 autopic_3: "Got a Collection `{}` related to your search !\nStarting Autopic !"
 
 # inline
-inline_1: "[Uʟᴛʀᴏɪᴅ Sᴜᴘᴘᴏʀᴛ](t.me/ultroidsupport)\n\n
+inline_1: "[Chat Group](t.me/WeebsGuild)\n\n
 **Hᴇʟᴘ Mᴇɴᴜ Oғ {}.\n\n
 Pʟᴜɢɪɴs ~ {}**"
-inline_2: "[Uʟᴛʀᴏɪᴅ Sᴜᴘᴘᴏʀᴛ](t.me/ultroidsupport)\n\n
+inline_2: "[Chat Group](t.me/WeebsGuild)\n\n
 **Hᴇʟᴘ Mᴇɴᴜ Oғ {}.\n\n
 Aᴅᴅᴏɴs ~ {}**"
-inline_3: "[Uʟᴛʀᴏɪᴅ Sᴜᴘᴘᴏʀᴛ](t.me/ultroidsupport)\n\n
+inline_3: "[Chat Group](t.me/WeebsGuild)\n\n
 **Hᴇʟᴘ Mᴇɴᴜ Oғ {}.\n\n
 Aᴅᴅᴏɴs ~ {}\n\n
 Dᴏ **`.setredis ADDONS True`** ᴀɴᴅ ʀᴇsᴛᴀʀᴛ ᴛᴏ ɢᴇᴛ ᴀᴅᴅᴏɴs.**"
@@ -61,10 +61,10 @@ afk_7: "Currently AFK with reason {}"
 afk_8: "Currently AFK."
 
 # bot
-alive_1: "**The Ultroid Userbot...**\n\n
+alive_1: "**Hunter Cha**\n\n
 **{}**\n\n
 ┏━━━━━━━━━━━━━━━━━━━━━\n
-┣ **Owner** - `{}`\n
+┣ **User** - `{}`\n
 ┣ **Version** - `{}`\n
 ┣ **Py-Ultroid** - `{}`\n
 ┣ **UpTime** - `{}`\n
@@ -72,8 +72,8 @@ alive_1: "**The Ultroid Userbot...**\n\n
 ┣ **Telethon** - `{}`\n
 ┣ **Branch** - `{}`\n
 ┗━━━━━━━━━━━━━━━━━━━━━"
-log: "**Heroku** Ultroid Logs.\nPasted [here]({}) too!"
-ping: "**Pong !!** `{}ms`\n**Uptime** - `{}`"
+log: "**Heroku** Logs.\nPasted [here]({}) too!"
+ping: "**uhm..** `{}ms`\n**Uptime** - `{}`"
 usage: "**⚙️ Dyno Usage ⚙️**:\n\n
 -> **Dyno usage for** `{}`:\n
   •  **{}h**  **{}m** |** `[{}%]`\n
@@ -108,7 +108,7 @@ chats_2: "`Cant delete this chat`"
 chats_3: "`I m not an admin`"
 chats_4: "#Deleted\nDeleted {}"
 chats_5: "Your [{}]({}) Group Made Boss!"
-chats_6: "Join @TeamUltroid"
+chats_6: "Join @WeebsGuild"
 
 # converter
 cvt_1: "Reply to any media/Document."
