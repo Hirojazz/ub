@@ -64,7 +64,7 @@ afk_8: "Currently AFK."
 alive_1: "**Hunter Cha Here!**\n\n
 **{}**\n\n
 ┏━━━━━━━━━━━━━━━━━━━━━\n
-┣ **I Belongs to** - `{}`\n
+┣ **A Noob** - `{}`\n
 ┣ **UpTime** - `{}`\n
 ┗━━━━━━━━━━━━━━━━━━━━━"
 log: "**Heroku** Logs.\nPasted [here]({}) too!"
