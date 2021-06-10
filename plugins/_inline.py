@@ -33,7 +33,7 @@ else:
 if udB.get("INLINE_PIC"):
     _file_to_replace = udB.get("INLINE_PIC")
 else:
-    _file_to_replace = "resources/extras/inline.jpg"
+    _file_to_replace = "https://telegra.ph/file/2e4e9c5a74bb7ccdb32bf.jpg"
 # ============================================#
 
 
@@ -56,7 +56,7 @@ async def e(o):
         )
         res = [
             await b.article(
-                title="Ultroid Userbot",
+                title="Cha Hae-In",
                 url="https://t.me/TeamUltroid",
                 description="Userbot | Telethon ",
                 text=ALIVEMSG,
