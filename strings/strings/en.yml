@@ -61,16 +61,11 @@ afk_7: "Currently AFK with reason {}"
 afk_8: "Currently AFK."
 
 # bot
-alive_1: "**Hunter Cha**\n\n
+alive_1: "**Hunter Cha Here!**\n\n
 **{}**\n\n
 ┏━━━━━━━━━━━━━━━━━━━━━\n
-┣ **User** - `{}`\n
-┣ **Version** - `{}`\n
-┣ **Py-Ultroid** - `{}`\n
+┣ **I Belongs to** - `{}`\n
 ┣ **UpTime** - `{}`\n
-┣ **Python** - `{}`\n
-┣ **Telethon** - `{}`\n
-┣ **Branch** - `{}`\n
 ┗━━━━━━━━━━━━━━━━━━━━━"
 log: "**Heroku** Logs.\nPasted [here]({}) too!"
 ping: "**uhm..** `{}ms`\n**Uptime** - `{}`"
