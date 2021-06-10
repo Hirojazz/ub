@@ -15,7 +15,7 @@ REPOMSG = (
     "• **Cha Hae-In Here!** •\n\n",
     "• Repo - [Click Here](https://github.com/TeamUltroid/Ultroid)\n",
     "• Addons - [Click Here](https://github.com/TeamUltroid/UltroidAddons)\n",
-    "• Support - @WeebsGuild",
+    "• Chat Group - @WeebsGuild",
 )
 
 
