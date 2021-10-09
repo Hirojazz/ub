@@ -35,7 +35,7 @@ async def spammer(e):
     await e.delete()
 
 
-@ultroid_cmd(pattern="bspam", fullsudo=True)
+@ultroid_cmd(pattern="bspam")
 async def bigspam(e):
     message = e.text
     if e.reply_to:
