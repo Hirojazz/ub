@@ -6,16 +6,22 @@
 # <https://www.github.com/TeamUltroid/Ultroid/blob/main/LICENSE/>.
 """
 ✘ Commands Available -
+
 • `{i}wspr <username>`
     Send secret message..
+
 • `{i}sticker <query>`
     Search Stickers as Per ur Wish..
+
 • `{i}getaudio <reply to an audio>`
     Download Audio To put in ur Desired Video/Gif.
+
 • `{i}addaudio <reply to Video/gif>`
     It will put the above audio to the replied video/gif.
+
 • `{i}dob <date of birth>`
     Put in dd/mm/yy Format only(eg .dob 01/01/1999).
+
 • `{i}wall <query>`
     Search Hd Wallpaper as Per ur Wish..
 """
