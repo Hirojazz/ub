@@ -11,6 +11,11 @@ authors:
 # commons
 com_1: "`Processing...`"
 com_2: "`Searching...`"
+com_3: "`Invalid Input`"
+com_4: "`UnSupported Media..`"
+com_5: "`Downloading...`"
+com_6: "`Uploading...`"
+
 # help
 help_1: "`{}` is not a valid plugin!"
 help_2: "The bot did not respond to the inline query.\nConsider using `{}restart`"
@@ -187,6 +192,17 @@ udl_3: "`Give a specific path to file`"
 wrd_1: "**Word** - `{}`\n\n**Meanings** - \n"
 wrd_2: "**Word** - `{}`\n\n**Synonyms** - \n"
 wrd_3: "**Word** - `{}`\n\n**Antonyms** - \n"
+
+# specialtools
+spcltool_1: "Reply To Audio or video"
+spcltool_2: "`Done.. Now reply to video In which u want to add this Audio`"
+spcltool_3: "Reply To video"
+spcltool_4: "`First reply an audio with .raw`"
+spcltool_5: "Downloaded Successfully, Now Adding Your Audio to video"
+spcltool_6: "`Put input in dd/mm/yyyy format`"
+spcltool_7: "`Happy Birthday To U🎉🎊`"
+spcltool_8: "Give something to search.."
+spcltool_9: "Found Nothing"
 
 # ---------------------------------------------------#
 
