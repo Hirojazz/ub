@@ -4,6 +4,7 @@
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
 # <https://www.github.com/TeamUltroid/Ultroid/blob/main/LICENSE/>.
+
 """
 ✘ Commands Available -
 
@@ -31,49 +32,30 @@ from datetime import datetime as dt
 from random import choice
 from shutil import rmtree
 
+import moviepy.editor as m
 import pytz
+import requests
 from bs4 import BeautifulSoup as bs
 from pyUltroid.functions.google_image import googleimagesdownload
 from pyUltroid.functions.tools import metadata
 from telethon.tl.types import DocumentAttributeVideo
 
-from . import (
-    async_searcher,
-    bash,
-    downloader,
-    eod,
-    eor,
-    get_string,
-    mediainfo,
-    ultroid_bot,
-    ultroid_cmd,
-    uploader,
-)
-
-File = []
+from . import *
 
 
 @ultroid_cmd(
     pattern="getaudio$",
 )
-async def daudtoid(e):
-    if not e.reply_to:
-        return await eod(e, get_string("spcltool_1"))
-    r = await e.get_reply_message()
-    if not mediainfo(r.media).startswith(("audio", "video")):
-        return await eod(e, get_string("spcltool_1"))
-    xxx = await eor(e, get_string("com_1"))
-    dl = r.file.name
-    c_time = time.time()
-    file = await downloader(
-        "resources/downloads/" + dl,
-        r.media.document,
-        xxx,
-        c_time,
-        "Downloading " + dl + "...",
-    )
-    File.append(file.name)
-    await xxx.edit(get_string("spcltool_2"))
+async def daudtoid(event):
+    ureply = await event.get_reply_message()
+    if not (ureply and ("audio" in ureply.document.mime_type)):
+        await eor(event, "`Reply To Audio Only..`")
+        return
+    xx = await eor(event, "`processing...`")
+    d = os.path.join("resources/extras/", "ul.mp3")
+    await xx.edit("`Downloading... Large Files Takes Time..`")
+    await event.client.download_media(ureply, d)
+    await xx.edit("`Done.. Now reply to video In which u want to add that Audio`")
 
 
 @ultroid_cmd(
