@@ -1,90 +1,130 @@
 # Ultroid - UserBot
-# Copyright (C) 2020 TeamUltroid
+# Copyright (C) 2021 TeamUltroid
 #
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
 # <https://www.github.com/TeamUltroid/Ultroid/blob/main/LICENSE/>.
-
 """
 ✘ Commands Available -
-
 • `{i}wspr <username>`
     Send secret message..
-
 • `{i}sticker <query>`
     Search Stickers as Per ur Wish..
-
 • `{i}getaudio <reply to an audio>`
     Download Audio To put in ur Desired Video/Gif.
-
 • `{i}addaudio <reply to Video/gif>`
     It will put the above audio to the replied video/gif.
-
 • `{i}dob <date of birth>`
     Put in dd/mm/yy Format only(eg .dob 01/01/1999).
-
 • `{i}wall <query>`
     Search Hd Wallpaper as Per ur Wish..
 """
-
 import os
+import time
 from datetime import datetime as dt
 from random import choice
 from shutil import rmtree
 
-import moviepy.editor as m
 import pytz
-import requests
-from bs4 import BeautifulSoup as b
+from bs4 import BeautifulSoup as bs
+from pyUltroid.functions.google_image import googleimagesdownload
+from pyUltroid.functions.tools import metadata
+from telethon.tl.types import DocumentAttributeVideo
 
-from . import *
+from . import (
+    async_searcher,
+    bash,
+    downloader,
+    eod,
+    eor,
+    get_string,
+    mediainfo,
+    ultroid_bot,
+    ultroid_cmd,
+    uploader,
+)
+
+File = []
 
 
 @ultroid_cmd(
     pattern="getaudio$",
 )
-async def daudtoid(event):
-    ureply = await event.get_reply_message()
-    if not (ureply and ("audio" in ureply.document.mime_type)):
-        await eor(event, "`Reply To Audio Only..`")
-        return
-    xx = await eor(event, "`processing...`")
-    d = os.path.join("resources/extras/", "ul.mp3")
-    await xx.edit("`Downloading... Large Files Takes Time..`")
-    await event.client.download_media(ureply, d)
-    await xx.edit("`Done.. Now reply to video In which u want to add that Audio`")
+async def daudtoid(e):
+    if not e.reply_to:
+        return await eod(e, get_string("spcltool_1"))
+    r = await e.get_reply_message()
+    if not mediainfo(r.media).startswith(("audio", "video")):
+        return await eod(e, get_string("spcltool_1"))
+    xxx = await eor(e, get_string("com_1"))
+    dl = r.file.name
+    c_time = time.time()
+    file = await downloader(
+        "resources/downloads/" + dl,
+        r.media.document,
+        xxx,
+        c_time,
+        "Downloading " + dl + "...",
+    )
+    File.append(file.name)
+    await xxx.edit(get_string("spcltool_2"))
 
 
 @ultroid_cmd(
     pattern="addaudio$",
 )
-async def adaudroid(event):
-    ureply = await event.get_reply_message()
-    if not (ureply and ("video" in ureply.document.mime_type)):
-        await eor(event, "`Reply To Gif/Video In which u want to add audio.`")
-        return
-    xx = await eor(event, "`processing...`")
-    ultt = await ureply.download_media()
-    ls = os.listdir("resources/extras")
-    z = "ul.mp3"
-    x = "resources/extras/ul.mp3"
-    if z not in ls:
-        await xx.edit("`First reply an audio with .aw`")
-        return
-    video = m.VideoFileClip(ultt)
-    audio = m.AudioFileClip(x)
-    out = video.set_audio(audio)
-    out.write_videofile("ok.mp4", fps=30)
-    await event.client.send_file(
-        event.chat_id,
-        file="ok.mp4",
-        force_document=False,
-        reply_to=event.reply_to_msg_id,
+async def adaudroid(e):
+    if not e.reply_to:
+        return await eod(e, get_string("spcltool_3"))
+    r = await e.get_reply_message()
+    if not mediainfo(r.media).startswith("video"):
+        return await eod(e, get_string("spcltool_3"))
+    if not File or os.path.exists(File[0]):
+        return await e.edit("`First reply an audio with .aw`")
+    xxx = await eor(e, get_string("com_1"))
+    dl = r.file.name
+    c_time = time.time()
+    file = await downloader(
+        "resources/downloads/" + dl,
+        r.media.document,
+        xxx,
+        c_time,
+        "Downloading " + dl + "...",
     )
-    os.remove("ok.mp4")
-    os.remove(x)
-    os.remove(ultt)
-    await xx.delete()
+    await xxx.edit(get_string("spcltool_5"))
+    await bash(
+        f'ffmpeg -i "{file.name}" -i "{File[0]}" -shortest -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 output.mp4'
+    )
+    out = "output.mp4"
+    mmmm = await uploader(
+        out,
+        out,
+        time.time(),
+        xxx,
+        "Uploading " + out + "...",
+    )
+    data = await metadata(out)
+    width = data["width"]
+    height = data["height"]
+    duration = data["duration"]
+    attributes = [
+        DocumentAttributeVideo(
+            duration=duration, w=width, h=height, supports_streaming=True
+        )
+    ]
+    await e.client.send_file(
+        e.chat_id,
+        mmmm,
+        thumb="resources/extras/ultroid.jpg",
+        attributes=attributes,
+        force_document=False,
+        reply_to=e.reply_to_msg_id,
+    )
+    await xxx.delete()
+    os.remove(out)
+    os.remove(file.name)
+    File.clear()
+    os.remove(File[0])
 
 
 @ultroid_cmd(
@@ -92,10 +132,10 @@ async def adaudroid(event):
 )
 async def hbd(event):
     if not event.pattern_match.group(1):
-        return await eor(event, "`Put input in dd/mm/yyyy format`")
+        return await eor(event, get_string("spcltool_6"))
     if event.reply_to_msg_id:
         kk = await event.get_reply_message()
-        nam = await ultroid_bot.get_entity(kk.from_id)
+        nam = await event.client.get_entity(kk.from_id)
         name = nam.first_name
     else:
         name = ultroid_bot.me.first_name
@@ -113,7 +153,7 @@ async def hbd(event):
     try:
         jn = dt.strptime(paida, "%d/%m/%Y")
     except BaseException:
-        return await eor(event, "`Put input in dd/mm/yyyy format`")
+        return await eor(event, get_string("spcltool_6"))
     jnm = zn.localize(jn)
     zinda = abhi - jnm
     barsh = (zinda.total_seconds()) / (365.242 * 24 * 3600)
@@ -167,8 +207,9 @@ async def hbd(event):
         sign = "Scorpio" if (day < 22) else "Sagittarius"
     sign = f"{sign}"
     params = (("sign", sign), ("today", day))
-    response = requests.post("https://aztro.sameerkumar.website/", params=params)
-    json = response.json()
+    json = await async_searcher(
+        "https://aztro.sameerkumar.website/", post=True, params=params, re_json=True
+    )
     dd = json.get("current_date")
     ds = json.get("description")
     lt = json.get("lucky_time")
@@ -180,19 +221,12 @@ async def hbd(event):
         event.chat_id,
         f"""
     Name -: {name}
-
 D.O.B -:  {paida}
-
 Lived -:  {saal}yr, {mahina}m, {din}d, {ghanta}hr, {mi}min, {slive}sec
-
 Birthday -: {hp}
-
 Zodiac -: {sign}
-
 **Horoscope On {dd} -**
-
 `{ds}`
-
     Lucky Time :-        {lt}
     Lucky Number :-   {ln}
     Lucky Color :-        {cl}
@@ -207,21 +241,22 @@ async def _(event):
     x = event.pattern_match.group(1)
     if not x:
         return await eor(event, "`Give something to search`")
-    uu = await eor(event, "`Processing...`")
-    z = request.get("https://combot.org/telegram/stickers?q=" + x).text
-    xx = b(z, "lxml")
-    title = xx.find_all("div", "sticker-pack__title")
-    link = xx.find_all("a", target="_blank")
-    if not link:
-        return await uu.edit("Found Nothing")
-    a = "SᴛɪᴄᴋEʀs Aᴡᴀɪʟᴀʙʟᴇ ~"
-    for xxx, yyy in zip(title, link):
-        v = xxx.get_text()
-        w = yyy["href"]
-        d = f"\n\n[{v}]({w})"
-        if d not in a:
-            a += d
-    await uu.edit(a)
+    uu = await eor(event, get_string("com_1"))
+    z = bs(
+        await async_searcher("https://combot.org/telegram/stickers?q=" + x),
+        "html.parser",
+    )
+    packs = z.find_all("div", "sticker-pack__header")
+    sticks = {
+        c.a["href"]: c.find("div", {"class": "sticker-pack__title"}).text for c in packs
+    }
+
+    if not sticks:
+        return await uu.edit(get_string("spcltool_9"))
+    a = "SᴛɪᴄᴋEʀs Aᴠᴀɪʟᴀʙʟᴇ ~\n\n"
+    for _, value in sticks.items():
+        a += f"<a href={_}>{value}</a>\n"
+    await uu.edit(a, parse_mode="html")
 
 
 @ultroid_cmd(pattern="wall ?(.*)")
@@ -229,7 +264,7 @@ async def wall(event):
     inp = event.pattern_match.group(1)
     if not inp:
         return await eor(event, "`Give me something to search..`")
-    nn = await eor(event, "`Processing Keep Patience...`")
+    nn = await eor(event, get_string("com_1"))
     query = f"hd {inp}"
     gi = googleimagesdownload()
     args = {
@@ -243,6 +278,3 @@ async def wall(event):
     await event.client.send_file(event.chat_id, f"./resources/downloads/{query}/{xx}")
     rmtree(f"./resources/downloads/{query}/")
     await nn.delete()
-
-
-HELP.update({f"{__name__.split('.')[1]}": f"{__doc__.format(i=HNDLR)}"})
