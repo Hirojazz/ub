@@ -61,52 +61,28 @@ async def daudtoid(event):
 @ultroid_cmd(
     pattern="addaudio$",
 )
-async def adaudroid(e):
-    if not e.reply_to:
-        return await eod(e, get_string("spcltool_3"))
-    r = await e.get_reply_message()
-    if not mediainfo(r.media).startswith("video"):
-        return await eod(e, get_string("spcltool_3"))
-    if not File or os.path.exists(File[0]):
-        return await e.edit("`First reply an audio with .aw`")
-    xxx = await eor(e, get_string("com_1"))
-    dl = r.file.name
-    c_time = time.time()
-    file = await downloader(
-        "resources/downloads/" + dl,
-        r.media.document,
-        xxx,
-        c_time,
-        "Downloading " + dl + "...",
-    )
-    await xxx.edit(get_string("spcltool_5"))
-    await bash(
-        f'ffmpeg -i "{file.name}" -i "{File[0]}" -shortest -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 output.mp4'
-    )
-    out = "output.mp4"
-    mmmm = await uploader(
-        out,
-        out,
-        time.time(),
-        xxx,
-        "Uploading " + out + "...",
-    )
-    data = await metadata(out)
-    width = data["width"]
-    height = data["height"]
-    duration = data["duration"]
-    attributes = [
-        DocumentAttributeVideo(
-            duration=duration, w=width, h=height, supports_streaming=True
-        )
-    ]
-    await e.client.send_file(
-        e.chat_id,
-        mmmm,
-        thumb="resources/extras/ultroid.jpg",
-        attributes=attributes,
+async def adaudroid(event):
+    ureply = await event.get_reply_message()
+    if not (ureply and ("video" in ureply.document.mime_type)):
+        await eor(event, "`Reply To Gif/Video In which u want to add audio.`")
+        return
+    xx = await eor(event, "`processing...`")
+    ultt = await ureply.download_media()
+    ls = os.listdir("resources/extras")
+    z = "ul.mp3"
+    x = "resources/extras/ul.mp3"
+    if z not in ls:
+        await xx.edit("`First reply an audio with .aw`")
+        return
+    video = m.VideoFileClip(ultt)
+    audio = m.AudioFileClip(x)
+    out = video.set_audio(audio)
+    out.write_videofile("ok.mp4", fps=30)
+    await event.client.send_file(
+        event.chat_id,
+        file="ok.mp4",
         force_document=False,
-        reply_to=e.reply_to_msg_id,
+        reply_to=event.reply_to_msg_id,
     )
     await xxx.delete()
     os.remove(out)
