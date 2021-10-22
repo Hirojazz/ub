@@ -227,12 +227,19 @@ async def hbd(event):
         event.chat_id,
         f"""
     Name -: {name}
+
 D.O.B -:  {paida}
+
 Lived -:  {saal}yr, {mahina}m, {din}d, {ghanta}hr, {mi}min, {slive}sec
+
 Birthday -: {hp}
+
 Zodiac -: {sign}
+
 **Horoscope On {dd} -**
+
 `{ds}`
+
     Lucky Time :-        {lt}
     Lucky Number :-   {ln}
     Lucky Color :-        {cl}
