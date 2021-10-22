@@ -84,11 +84,10 @@ async def adaudroid(event):
         force_document=False,
         reply_to=event.reply_to_msg_id,
     )
-    await xxx.delete()
-    os.remove(out)
-    os.remove(file.name)
-    File.clear()
-    os.remove(File[0])
+    os.remove("ok.mp4")
+    os.remove(x)
+    os.remove(ultt)
+    await xx.delete()
 
 
 @ultroid_cmd(
@@ -96,10 +95,10 @@ async def adaudroid(event):
 )
 async def hbd(event):
     if not event.pattern_match.group(1):
-        return await eor(event, get_string("spcltool_6"))
+         return await eor(event, "`Put input in dd/mm/yyyy format`")
     if event.reply_to_msg_id:
         kk = await event.get_reply_message()
-        nam = await event.client.get_entity(kk.from_id)
+        nam = await ultroid_bot.get_entity(kk.from_id)
         name = nam.first_name
     else:
         name = ultroid_bot.me.first_name
@@ -171,9 +170,8 @@ async def hbd(event):
         sign = "Scorpio" if (day < 22) else "Sagittarius"
     sign = f"{sign}"
     params = (("sign", sign), ("today", day))
-    json = await async_searcher(
-        "https://aztro.sameerkumar.website/", post=True, params=params, re_json=True
-    )
+    response = requests.post("https://aztro.sameerkumar.website/", params=params)
+    json = response.json()
     dd = json.get("current_date")
     ds = json.get("description")
     lt = json.get("lucky_time")
@@ -212,22 +210,21 @@ async def _(event):
     x = event.pattern_match.group(1)
     if not x:
         return await eor(event, "`Give something to search`")
-    uu = await eor(event, get_string("com_1"))
-    z = bs(
-        await async_searcher("https://combot.org/telegram/stickers?q=" + x),
-        "html.parser",
-    )
-    packs = z.find_all("div", "sticker-pack__header")
-    sticks = {
-        c.a["href"]: c.find("div", {"class": "sticker-pack__title"}).text for c in packs
-    }
-
-    if not sticks:
-        return await uu.edit(get_string("spcltool_9"))
-    a = "SᴛɪᴄᴋEʀs Aᴠᴀɪʟᴀʙʟᴇ ~\n\n"
-    for _, value in sticks.items():
-        a += f"<a href={_}>{value}</a>\n"
-    await uu.edit(a, parse_mode="html")
+    uu = await eor(event, "`Processing...`")
+    z = request.get("https://combot.org/telegram/stickers?q=" + x).text
+    xx = b(z, "lxml")
+    title = xx.find_all("div", "sticker-pack__title")
+    link = xx.find_all("a", target="_blank")
+    if not link:
+        return await uu.edit("Found Nothing")
+    a = "SᴛɪᴄᴋEʀs Aᴡᴀɪʟᴀʙʟᴇ ~"
+    for xxx, yyy in zip(title, link):
+        v = xxx.get_text()
+        w = yyy["href"]
+        d = f"\n\n[{v}]({w})"
+        if d not in a:
+            a += d
+    await uu.edit(a)
 
 
 @ultroid_cmd(pattern="wall ?(.*)")
@@ -235,7 +232,7 @@ async def wall(event):
     inp = event.pattern_match.group(1)
     if not inp:
         return await eor(event, "`Give me something to search..`")
-    nn = await eor(event, get_string("com_1"))
+    nn = await eor(event, "`Processing Keep Patience...`") 
     query = f"hd {inp}"
     gi = googleimagesdownload()
     args = {
@@ -249,5 +246,6 @@ async def wall(event):
     await event.client.send_file(event.chat_id, f"./resources/downloads/{query}/{xx}")
     rmtree(f"./resources/downloads/{query}/")
     await nn.delete()
+
 
 HELP.update({f"{__name__.split('.')[1]}": f"{__doc__.format(i=HNDLR)}"})
